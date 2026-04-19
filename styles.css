@@ -1037,9 +1037,63 @@ body::after {
   color: var(--text-secondary);
 }
 
-/* Mobile logo */
-.mobile-logo {
-  display: none;
+/* ═══════════════════════════════════════════════════
+   Sticky header
+   ═══════════════════════════════════════════════════ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  background: rgba(13, 13, 13, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 60;
+}
+
+.site-header-logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.site-header-logo:hover {
+  opacity: 1;
+}
+
+.site-header-logo img {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+
+.site-header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1.1rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  background: transparent;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.site-header-cta:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1559,14 +1613,18 @@ body::after {
 }
 
 @media (max-width: 639px) {
-  .mobile-logo {
-    display: block;
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    z-index: 50;
-    opacity: 0.4;
-    height: 20px;
+  .site-header {
+    height: 50px;
+    padding: 0 1rem;
+  }
+
+  .site-header-logo img {
+    height: 18px;
+  }
+
+  .site-header-cta {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.8rem;
   }
 
   .station,
@@ -1610,17 +1668,6 @@ body::after {
   }
 }
 
-@media (min-width: 640px) and (max-width: 767px) {
-  .mobile-logo {
-    display: block;
-    position: fixed;
-    top: 1rem;
-    left: 1.5rem;
-    z-index: 50;
-    opacity: 0.4;
-    height: 22px;
-  }
-}
 
 @media (min-width: 1024px) {
   .station,

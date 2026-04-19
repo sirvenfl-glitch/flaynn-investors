@@ -20,6 +20,15 @@
 </head>
 <body>
 
+<header class="site-header">
+  <a href="/" class="site-header-logo" aria-label="Accueil Flaynn">
+    <img src="logo.svg" alt="Flaynn">
+  </a>
+  <a href="https://flaynn.io" target="_blank" rel="noopener" class="site-header-cta" data-track="nav_espace_membre_click">
+    Espace membre <span aria-hidden="true">↗</span>
+  </a>
+</header>
+
 <canvas id="starfield" aria-hidden="true"></canvas>
 
 <main class="form-page">
@@ -217,7 +226,7 @@
     <p><strong>Éditeur</strong><br>
     Flaynn SAS<br>
     En cours d'immatriculation<br>
-    Contact : contact@flaynn.com</p>
+    Contact : contact@flaynn.fr</p>
     <p><strong>Hébergement</strong><br>
     Ce site est hébergé par Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.</p>
     <p><strong>Données personnelles</strong><br>
@@ -232,7 +241,7 @@
 
   var LINKEDIN_RE = /^https:\/\/(www\.)?linkedin\.com\/in\/[\w\-_%.]+\/?$/
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  var API_URL = 'https://flaynn.tech/api/ba/apply'
+  var API_URL = 'https://flaynn.io/api/ba/apply'
 
   function track(name, props) {
     if (!window.plausible) return
