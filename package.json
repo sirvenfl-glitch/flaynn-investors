@@ -4,7 +4,7 @@
   "private": true,
   "description": "flaynn.com : home hub + fondateurs + investisseurs + BA onboarding",
   "scripts": {
-    "build": "mkdir -p dist && cp index.html fondateurs.html investisseurs.html rejoindre.html rejoindre-merci.html styles.css starfield.js warp.js favicon.svg logo.svg robots.txt vercel.json dist/",
+    "build": "mkdir -p dist && cp index.html fondateurs.html investisseurs.html rejoindre.html rejoindre-merci.html styles.css starfield.js warp.js favicon.svg logo.svg robots.txt dist/",
     "dev": "python3 -m http.server 5173"
   }
 }
