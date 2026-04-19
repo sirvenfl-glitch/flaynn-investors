@@ -1,10 +1,13 @@
 /**
- * flaynn.com — Warp + Fullpage Controller
+ * flaynn.com : Warp + Fullpage Controller (generalized)
  *
- * Scroll-driven warp visuals + app-style fullpage navigation.
- * Each wheel/touch/key gesture = one smooth page transition.
- * Easing: ease-out-expo (iOS-like deceleration).
- * Warp glow activates when scrolling through warp zones.
+ * Works on any page that includes:
+ *   - #warp-overlay canvas (optional)
+ *   - .warp-zone elements with data-warp-color="violet|orange" (optional)
+ *   - .snap-point elements for fullpage scroll (optional)
+ *
+ * If no .snap-point elements are present, fullpage controller is skipped
+ * (regular scrolling). Reveals, card tilt, and score bars work regardless.
  */
 ;(function () {
   'use strict'
@@ -51,11 +54,20 @@
     return lines
   }
 
+  var colorMap = { violet: '#7B2D8E', orange: '#E8651A' }
   var lineCount = window.innerWidth < 640 ? 45 : 90
-  var warpZones = [
-    { el: document.getElementById('warp-zone-1'), color: '#7B2D8E', lines: makeLines(lineCount) },
-    { el: document.getElementById('warp-zone-2'), color: '#E8651A', lines: makeLines(lineCount) }
-  ]
+
+  var warpZones = []
+  var zoneEls = document.querySelectorAll('.warp-zone')
+  for (var zi = 0; zi < zoneEls.length; zi++) {
+    var el = zoneEls[zi]
+    var key = el.getAttribute('data-warp-color') || 'violet'
+    warpZones.push({
+      el: el,
+      color: colorMap[key] || colorMap.violet,
+      lines: makeLines(lineCount)
+    })
+  }
 
   function zoneProgress(el) {
     if (!el) return -1
@@ -74,7 +86,6 @@
     var cy = overlay.height / 2
     var maxDim = Math.max(overlay.width, overlay.height)
 
-    // Deep glow
     var bg = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxDim * 1.3)
     bg.addColorStop(0, color + ha(0.35 * p))
     bg.addColorStop(0.35, color + ha(0.14 * p))
@@ -82,7 +93,6 @@
     ctx.fillStyle = bg
     ctx.fillRect(0, 0, overlay.width, overlay.height)
 
-    // White-hot core
     var core = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxDim * 0.3 * p)
     core.addColorStop(0, '#ffffff' + ha(0.25 * p))
     core.addColorStop(0.25, color + ha(0.4 * p))
@@ -90,7 +100,6 @@
     ctx.fillStyle = core
     ctx.fillRect(0, 0, overlay.width, overlay.height)
 
-    // Warp lines
     for (var i = 0; i < lines.length; i++) {
       var l = lines[i]
       var d1 = l.dist + l.len * p * l.speed
@@ -113,13 +122,11 @@
       ctx.stroke()
     }
 
-    // Flash at peak
     if (p > 0.88) {
       ctx.fillStyle = 'rgba(255,255,255,' + ((p - 0.88) / 0.12 * 0.15) + ')'
       ctx.fillRect(0, 0, overlay.width, overlay.height)
     }
 
-    // Vignette
     var vig = ctx.createRadialGradient(cx, cy, maxDim * 0.2, cx, cy, maxDim * 0.7)
     vig.addColorStop(0, 'rgba(0,0,0,0)')
     vig.addColorStop(1, 'rgba(0,0,0,' + (0.35 * p) + ')')
@@ -147,15 +154,11 @@
   }
 
   /* ═══════════════════════════════════════════════
-     2. FULLPAGE CONTROLLER (app-style 120Hz)
+     2. FULLPAGE CONTROLLER (only if .snap-point exist)
      ═══════════════════════════════════════════════ */
 
-  // Collect snap-worthy pages in DOM order
-  var pageEls = Array.prototype.slice.call(
-    document.querySelectorAll(
-      '#station-1, .station-2-intro, .stat-block, .punchline, #station-3'
-    )
-  )
+  var pageEls = Array.prototype.slice.call(document.querySelectorAll('.snap-point'))
+  var fullpageActive = pageEls.length > 0
 
   var current = 0
   var locked = false
@@ -166,12 +169,10 @@
     var elTop = el.getBoundingClientRect().top + window.pageYOffset
     var elH = el.offsetHeight
     var vh = window.innerHeight
-    // Center element in viewport. If taller than viewport, align top.
     if (elH >= vh) return elTop
     return Math.max(0, elTop - (vh - elH) / 2)
   }
 
-  // Ease-out expo
   function easeOutExpo(t) {
     return t >= 1 ? 1 : 1 - Math.pow(2, -11 * t)
   }
@@ -185,8 +186,6 @@
       var eased = easeOutExpo(t)
 
       window.scrollTo(0, from + (to - from) * eased)
-
-      // Update warp every frame during animation
       updateWarp()
 
       if (t < 1) {
@@ -202,12 +201,10 @@
   }
 
   function goTo(index) {
-    if (locked) return
+    if (locked || !fullpageActive) return
 
-    // Clamp
     if (index < 0) index = 0
     if (index >= pageEls.length) {
-      // Scroll to bottom (footer)
       var docBottom = document.documentElement.scrollHeight - window.innerHeight
       var now = window.pageYOffset
       if (now >= docBottom - 5) return
@@ -227,14 +224,13 @@
     var dist = Math.abs(to - from)
     var vh = window.innerHeight
 
-    // Duration: scales with distance, longer for warp zone crossings
     var duration = Math.min(2400, Math.max(1100, dist / vh * 1000))
 
     animateScroll(from, to, duration, function () { locked = false })
   }
 
-  // Find closest page on load
   function findClosestPage() {
+    if (!fullpageActive) return
     var scrollTop = window.pageYOffset
     var closest = 0
     var minDist = Infinity
@@ -249,99 +245,85 @@
   }
   findClosestPage()
 
-  // ── Wheel ──
   function isModalOpen() {
     var modal = document.getElementById('legal-modal')
     return modal && modal.classList.contains('active')
   }
 
-  window.addEventListener('wheel', function (e) {
-    if (isModalOpen()) return
-    e.preventDefault()
-    if (locked) return
-
-    var dir = e.deltaY > 0 ? 1 : -1
-    goTo(current + dir)
-  }, { passive: false })
-
-  // ── Touch ──
-  var touchMoved = false
-
-  window.addEventListener('touchstart', function (e) {
-    // Allow touch scrolling inside iPhone mockup
-    var screen = document.getElementById('iphone-screen')
-    if (screen && screen.contains(e.target)) return
-
-    touchStartY = e.touches[0].clientY
-    touchStartTime = Date.now()
-    touchMoved = false
-  }, { passive: true })
-
-  window.addEventListener('touchmove', function (e) {
-    if (isModalOpen()) return
-    var screen = document.getElementById('iphone-screen')
-    if (screen && screen.contains(e.target)) return
-
-    var dy = Math.abs(e.touches[0].clientY - touchStartY)
-    if (dy > 12) {
-      touchMoved = true
+  if (fullpageActive) {
+    window.addEventListener('wheel', function (e) {
+      if (isModalOpen()) return
       e.preventDefault()
-    }
-  }, { passive: false })
+      if (locked) return
 
-  window.addEventListener('touchend', function (e) {
-    if (isModalOpen() || locked || !touchMoved) return
-    var screen = document.getElementById('iphone-screen')
-    if (screen && screen.contains(e.target)) return
+      var dir = e.deltaY > 0 ? 1 : -1
+      goTo(current + dir)
+    }, { passive: false })
 
-    var delta = touchStartY - e.changedTouches[0].clientY
-    var elapsed = Date.now() - touchStartTime
-    var velocity = Math.abs(delta) / Math.max(elapsed, 1)
-    if (Math.abs(delta) > 30 || velocity > 0.3) {
-      goTo(current + (delta > 0 ? 1 : -1))
-    }
-  }, { passive: true })
+    window.addEventListener('touchstart', function (e) {
+      touchStartY = e.touches[0].clientY
+      touchStartTime = Date.now()
+    }, { passive: true })
 
-  // ── Keyboard ──
-  window.addEventListener('keydown', function (e) {
-    if (isModalOpen() || locked) return
-    if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
-      e.preventDefault()
-      goTo(current + 1)
-    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-      e.preventDefault()
-      goTo(current - 1)
-    } else if (e.key === 'Home') {
-      e.preventDefault()
-      goTo(0)
-    } else if (e.key === 'End') {
-      e.preventDefault()
-      goTo(pageEls.length - 1)
-    }
-  })
+    var touchMoved = false
+    window.addEventListener('touchmove', function (e) {
+      if (isModalOpen()) return
+      var dy = Math.abs(e.touches[0].clientY - touchStartY)
+      if (dy > 12) {
+        touchMoved = true
+        e.preventDefault()
+      }
+    }, { passive: false })
 
-  // ── Resize: re-snap ──
-  var resizeTimer = null
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer)
-    resizeTimer = setTimeout(function () {
-      window.scrollTo(0, getScrollTarget(pageEls[current]))
-    }, 200)
-  })
+    window.addEventListener('touchend', function (e) {
+      if (isModalOpen() || locked || !touchMoved) { touchMoved = false; return }
+      var delta = touchStartY - e.changedTouches[0].clientY
+      var elapsed = Date.now() - touchStartTime
+      var velocity = Math.abs(delta) / Math.max(elapsed, 1)
+      if (Math.abs(delta) > 30 || velocity > 0.3) {
+        goTo(current + (delta > 0 ? 1 : -1))
+      }
+      touchMoved = false
+    }, { passive: true })
 
-  // ── Passive scroll listener for warp update ──
+    window.addEventListener('keydown', function (e) {
+      if (isModalOpen() || locked) return
+      var tag = (e.target && e.target.tagName) || ''
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+      if (e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault()
+        goTo(current + 1)
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault()
+        goTo(current - 1)
+      } else if (e.key === 'Home') {
+        e.preventDefault()
+        goTo(0)
+      } else if (e.key === 'End') {
+        e.preventDefault()
+        goTo(pageEls.length - 1)
+      }
+    })
+
+    var resizeTimer = null
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(function () {
+        window.scrollTo(0, getScrollTarget(pageEls[current]))
+      }, 200)
+    })
+  }
+
   window.addEventListener('scroll', function () {
     if (!locked) updateWarp()
   }, { passive: true })
 
-  // Initial warp state
   updateWarp()
 
   /* ═══════════════════════════════════════════════
-     3. REVEALS, TRACKING, CARD TILT, STAGGER
+     3. REVEALS, CARD TILT, SCORE BARS, PUNCHLINES
      ═══════════════════════════════════════════════ */
 
-  // Scroll-based reveals
   var reveals = document.querySelectorAll('.reveal')
   if (reveals.length) {
     var revealObs = new IntersectionObserver(function (entries) {
@@ -355,85 +337,37 @@
     reveals.forEach(function (el) { revealObs.observe(el) })
   }
 
-  // Punchline stagger
-  var punchlineBlock = document.getElementById('punchline-block')
-  if (punchlineBlock) {
-    var punchlineLines = punchlineBlock.querySelectorAll('.punchline-line')
+  var punchlineBlocks = document.querySelectorAll('.punchline')
+  punchlineBlocks.forEach(function (block) {
+    var lines = block.querySelectorAll('.punchline-line')
+    if (!lines.length) return
     new IntersectionObserver(function (entries) {
       if (entries[0].isIntersecting) {
-        punchlineLines.forEach(function (line, i) {
-          setTimeout(function () {
-            line.classList.add('visible')
-          }, i * 300)
+        lines.forEach(function (line, i) {
+          setTimeout(function () { line.classList.add('visible') }, i * 300)
         })
       }
-    }, { threshold: 0.3 }).observe(punchlineBlock)
-  }
-
-  // Vision headline stagger
-  var visionBlock = document.getElementById('vision-headline')
-  if (visionBlock) {
-    var visionLines = visionBlock.querySelectorAll('.vision-line')
-    new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        visionLines.forEach(function (line, i) {
-          setTimeout(function () {
-            line.classList.add('visible')
-          }, i * 300)
-        })
-      }
-    }, { threshold: 0.3 }).observe(visionBlock)
-  }
-
-  // iPhone frame fade-in
-  var iphoneFrame = document.getElementById('iphone-frame')
-  if (iphoneFrame) {
-    new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        iphoneFrame.classList.add('visible')
-      }
-    }, { threshold: 0.2 }).observe(iphoneFrame)
-  }
-
-  // Plausible events
-  function track(name) {
-    if (window.plausible) window.plausible(name)
-  }
-
-  var trackMap = {
-    'station-2': 'scroll_station_2',
-    'station-3': 'scroll_station_3'
-  }
-  Object.keys(trackMap).forEach(function (id) {
-    var el = document.getElementById(id)
-    if (!el) return
-    var done = false
-    new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting && !done) {
-        done = true
-        track(trackMap[id])
-      }
-    }, { threshold: 0.05 }).observe(el)
+    }, { threshold: 0.3 }).observe(block)
   })
 
-  // Scoring card 3D tilt
-  var card = document.querySelector('.scoring-card')
-  if (card && !reducedMotion) {
-    card.addEventListener('mousemove', function (e) {
-      var r = card.getBoundingClientRect()
-      var x = (e.clientX - r.left) / r.width
-      var y = (e.clientY - r.top) / r.height
-      card.style.transform =
-        'perspective(800px) rotateX(' + ((0.5 - y) * 18) +
-        'deg) rotateY(' + ((x - 0.5) * 18) +
-        'deg) scale(1.03)'
-    })
-    card.addEventListener('mouseleave', function () {
-      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)'
+  var cards = document.querySelectorAll('.scoring-card')
+  if (!reducedMotion) {
+    cards.forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect()
+        var x = (e.clientX - r.left) / r.width
+        var y = (e.clientY - r.top) / r.height
+        card.style.transform =
+          'perspective(800px) rotateX(' + ((0.5 - y) * 14) +
+          'deg) rotateY(' + ((x - 0.5) * 14) +
+          'deg) scale(1.02)'
+      })
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)'
+      })
     })
   }
 
-  // Score bar fill
   var bars = document.querySelectorAll('.score-bar-fill')
   if (bars.length) {
     var barObs = new IntersectionObserver(function (entries) {
@@ -449,8 +383,4 @@
     }, { threshold: 0.2 })
     bars.forEach(function (b) { barObs.observe(b) })
   }
-
-  // CTA tracking
-  var cta = document.querySelector('.btn-cta')
-  if (cta) cta.addEventListener('click', function () { track('cta_contact_click') })
 })()

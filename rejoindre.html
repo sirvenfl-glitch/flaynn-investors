@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flaynn · Votre candidature</title>
+  <meta name="description" content="Candidatez pour rejoindre Flaynn comme business angel. 10 minutes, validation manuelle sous 48h.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://flaynn.com/rejoindre">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script defer data-domain="flaynn.com" src="https://plausible.io/js/script.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+</head>
+<body>
+
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<main class="form-page">
+
+  <div class="form-header">
+    <a href="/" class="form-logo">Flaynn</a>
+    <h1>Votre candidature.</h1>
+    <p>10 minutes. Validation manuelle par l'équipe sous 48 heures.</p>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" id="stepper">
+    <div class="stepper-dot active" data-step="1">1</div>
+    <div class="stepper-line" data-line="1"></div>
+    <div class="stepper-dot" data-step="2">2</div>
+    <div class="stepper-line" data-line="2"></div>
+    <div class="stepper-dot" data-step="3">3</div>
+  </div>
+
+  <form id="ba-form" novalidate>
+
+    <!-- STEP 1 : Identité -->
+    <section class="form-step active" data-step="1" aria-labelledby="step1-title">
+      <h2 id="step1-title">Identité</h2>
+
+      <div class="form-field">
+        <label for="first_name">Prénom<span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="first_name" name="first_name" required aria-required="true" minlength="2" maxlength="80" autocomplete="given-name">
+        <p class="form-error" id="err_first_name">Entre 2 et 80 caractères.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="last_name">Nom<span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="last_name" name="last_name" required aria-required="true" minlength="2" maxlength="80" autocomplete="family-name">
+        <p class="form-error" id="err_last_name">Entre 2 et 80 caractères.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email<span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id="email" name="email" required aria-required="true" maxlength="254" autocomplete="email">
+        <p class="form-error" id="err_email">Email invalide.</p>
+      </div>
+
+      <div class="form-field">
+        <label for="linkedin_url">URL LinkedIn<span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="linkedin_url" name="linkedin_url" required aria-required="true" placeholder="https://www.linkedin.com/in/votre-profil" inputmode="url">
+        <p class="form-error" id="err_linkedin_url">URL LinkedIn invalide. Format attendu : https://www.linkedin.com/in/votre-profil</p>
+      </div>
+
+      <div class="form-field">
+        <label for="exit_context">Contexte d'exit <span class="form-hint" style="display:inline;margin-left:0.3rem">optionnel</span></label>
+        <textarea id="exit_context" name="exit_context" maxlength="2000" placeholder="Précédente entreprise, rôle, exit si pertinent..."></textarea>
+        <p class="form-hint">Max 2000 caractères.</p>
+      </div>
+
+      <div class="form-nav center">
+        <button type="button" class="btn-primary" id="next-1" disabled>Suivant →</button>
+      </div>
+    </section>
+
+    <!-- STEP 2 : Thèse -->
+    <section class="form-step" data-step="2" aria-labelledby="step2-title">
+      <h2 id="step2-title">Thèse d'investissement</h2>
+
+      <div class="form-field">
+        <label>Secteurs<span class="req" aria-hidden="true">*</span> <span class="form-hint" style="display:inline;margin-left:0.3rem">1 à 6</span></label>
+        <div class="check-grid cols-3">
+          <div class="check-pill"><input type="checkbox" id="sec-healthtech" name="sectors" value="HealthTech"><label for="sec-healthtech">HealthTech</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-saas" name="sectors" value="SaaS B2B"><label for="sec-saas">SaaS B2B</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-fintech" name="sectors" value="FinTech"><label for="sec-fintech">FinTech</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-climate" name="sectors" value="ClimateTech"><label for="sec-climate">ClimateTech</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-edtech" name="sectors" value="EdTech"><label for="sec-edtech">EdTech</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-consumer" name="sectors" value="Consumer"><label for="sec-consumer">Consumer</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-deeptech" name="sectors" value="DeepTech"><label for="sec-deeptech">DeepTech</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-aiml" name="sectors" value="AI/ML"><label for="sec-aiml">AI/ML</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-market" name="sectors" value="Marketplaces"><label for="sec-market">Marketplaces</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-cyber" name="sectors" value="Cybersecurity"><label for="sec-cyber">Cybersecurity</label></div>
+          <div class="check-pill"><input type="checkbox" id="sec-autre" name="sectors" value="Autre"><label for="sec-autre">Autre</label></div>
+        </div>
+        <p class="form-error" id="err_sectors">Sélectionnez entre 1 et 6 secteurs.</p>
+      </div>
+
+      <div class="form-field">
+        <label>Stades<span class="req" aria-hidden="true">*</span> <span class="form-hint" style="display:inline;margin-left:0.3rem">1 à 3</span></label>
+        <div class="check-grid cols-3">
+          <div class="check-pill"><input type="checkbox" id="stage-preseed" name="stages" value="pre-seed"><label for="stage-preseed">pre-seed</label></div>
+          <div class="check-pill"><input type="checkbox" id="stage-seed" name="stages" value="seed"><label for="stage-seed">seed</label></div>
+          <div class="check-pill"><input type="checkbox" id="stage-seriesa" name="stages" value="series-a"><label for="stage-seriesa">series-a</label></div>
+        </div>
+        <p class="form-error" id="err_stages">Sélectionnez au moins un stade.</p>
+      </div>
+
+      <div class="form-field">
+        <label>Ticket<span class="req" aria-hidden="true">*</span> <span class="form-hint" style="display:inline;margin-left:0.3rem">en euros</span></label>
+        <div class="ticket-range">
+          <div>
+            <input type="number" id="ticket_min" name="ticket_min" min="5000" max="500000" step="5000" placeholder="25 000" required aria-required="true" aria-label="Ticket minimum en euros">
+          </div>
+          <div>
+            <input type="number" id="ticket_max" name="ticket_max" min="5000" max="500000" step="5000" placeholder="100 000" required aria-required="true" aria-label="Ticket maximum en euros">
+          </div>
+        </div>
+        <p class="form-hint">Min. 5 000€. Max. 500 000€. Le ticket minimum doit être inférieur ou égal au maximum.</p>
+        <p class="form-error" id="err_ticket">Vérifiez les tickets : min ≤ max, entre 5 000 et 500 000.</p>
+      </div>
+
+      <div class="form-field">
+        <label>Géographies<span class="req" aria-hidden="true">*</span> <span class="form-hint" style="display:inline;margin-left:0.3rem">une ou plusieurs</span></label>
+        <div class="check-grid cols-3">
+          <div class="check-pill"><input type="checkbox" id="geo-fr" name="geography" value="France"><label for="geo-fr">France</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-be" name="geography" value="Belgique"><label for="geo-be">Belgique</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-lu" name="geography" value="Luxembourg"><label for="geo-lu">Luxembourg</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-ch" name="geography" value="Suisse romande"><label for="geo-ch">Suisse romande</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-qc" name="geography" value="Québec"><label for="geo-qc">Québec</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-ma" name="geography" value="Maroc"><label for="geo-ma">Maroc</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-tn" name="geography" value="Tunisie"><label for="geo-tn">Tunisie</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-ci" name="geography" value="Côte d'Ivoire"><label for="geo-ci">Côte d'Ivoire</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-sn" name="geography" value="Sénégal"><label for="geo-sn">Sénégal</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-eu" name="geography" value="Europe (autre)"><label for="geo-eu">Europe (autre)</label></div>
+          <div class="check-pill"><input type="checkbox" id="geo-autre" name="geography" value="Autre"><label for="geo-autre">Autre</label></div>
+        </div>
+        <p class="form-error" id="err_geography">Sélectionnez au moins une géographie.</p>
+      </div>
+
+      <div class="form-field">
+        <label>Préférences ESG <span class="form-hint" style="display:inline;margin-left:0.3rem">optionnel, 0 à 4</span></label>
+        <div class="check-grid">
+          <div class="check-pill"><input type="checkbox" id="esg-mixite" name="esg_preferences" value="Mixité fondateurs"><label for="esg-mixite">Mixité fondateurs</label></div>
+          <div class="check-pill"><input type="checkbox" id="esg-climat" name="esg_preferences" value="Impact climat"><label for="esg-climat">Impact climat</label></div>
+          <div class="check-pill"><input type="checkbox" id="esg-inclusion" name="esg_preferences" value="Inclusion sociale"><label for="esg-inclusion">Inclusion sociale</label></div>
+          <div class="check-pill"><input type="checkbox" id="esg-local" name="esg_preferences" value="Économie locale"><label for="esg-local">Économie locale</label></div>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Capacité hebdomadaire<span class="req" aria-hidden="true">*</span> <span class="form-hint" style="display:inline;margin-left:0.3rem">dossiers par semaine</span></label>
+        <div class="radio-row">
+          <div class="check-pill"><input type="radio" id="cap-1" name="weekly_capacity" value="1"><label for="cap-1">1 dossier</label></div>
+          <div class="check-pill"><input type="radio" id="cap-2" name="weekly_capacity" value="2"><label for="cap-2">2 dossiers</label></div>
+          <div class="check-pill"><input type="radio" id="cap-3" name="weekly_capacity" value="3"><label for="cap-3">3 dossiers</label></div>
+        </div>
+        <p class="form-error" id="err_weekly_capacity">Sélectionnez votre capacité.</p>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-secondary" data-goto="1">← Précédent</button>
+        <button type="button" class="btn-primary" id="next-2" disabled>Suivant →</button>
+      </div>
+    </section>
+
+    <!-- STEP 3 : Validation -->
+    <section class="form-step" data-step="3" aria-labelledby="step3-title">
+      <h2 id="step3-title">Validation</h2>
+
+      <div class="recap-card" id="recap">
+        <h3>Récapitulatif</h3>
+        <dl id="recap-list"></dl>
+      </div>
+
+      <div class="form-field">
+        <label for="referral_source">Comment avez-vous connu Flaynn ? <span class="form-hint" style="display:inline;margin-left:0.3rem">optionnel</span></label>
+        <input type="text" id="referral_source" name="referral_source" maxlength="200" placeholder="LinkedIn, un contact, un article...">
+      </div>
+
+      <div class="form-field">
+        <div class="consent-field">
+          <input type="checkbox" id="consent_rgpd" name="consent_rgpd" required aria-required="true">
+          <label for="consent_rgpd">J'accepte que Flaynn traite mes données dans le cadre du service.</label>
+        </div>
+      </div>
+
+      <div class="form-api-error" id="api-error" role="alert" aria-live="polite"></div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-secondary" data-goto="2">← Précédent</button>
+        <button type="submit" class="btn-primary" id="submit-btn" disabled>Finaliser ma candidature →</button>
+      </div>
+    </section>
+
+  </form>
+
+  <footer class="site-footer" style="padding-top:2rem">
+    <div class="footer-content">
+      <p class="footer-tagline">Flaynn · L'Ère du Capital Sélectif</p>
+      <button class="footer-legal" onclick="document.getElementById('legal-modal').classList.add('active')">Mentions légales</button>
+    </div>
+  </footer>
+
+</main>
+
+<div class="modal-overlay" id="legal-modal" onclick="if(event.target===this)this.classList.remove('active')">
+  <div class="modal-content">
+    <button class="modal-close" onclick="document.getElementById('legal-modal').classList.remove('active')" aria-label="Fermer">×</button>
+    <h3>Mentions légales</h3>
+    <p><strong>Éditeur</strong><br>
+    Flaynn SAS<br>
+    En cours d'immatriculation<br>
+    Contact : contact@flaynn.com</p>
+    <p><strong>Hébergement</strong><br>
+    Ce site est hébergé par Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA.</p>
+    <p><strong>Données personnelles</strong><br>
+    Ce site utilise Plausible Analytics, un outil d'analyse respectueux de la vie privée qui ne collecte aucune donnée personnelle et ne dépose aucun cookie.</p>
+  </div>
+</div>
+
+<script src="starfield.js"></script>
+<script>
+;(function () {
+  'use strict'
+
+  var LINKEDIN_RE = /^https:\/\/(www\.)?linkedin\.com\/in\/[\w\-_%.]+\/?$/
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  var API_URL = 'https://flaynn.tech/api/ba/apply'
+
+  function track(name, props) {
+    if (!window.plausible) return
+    if (props) window.plausible(name, { props: props })
+    else window.plausible(name)
+  }
+  track('ba_apply_view')
+
+  var form = document.getElementById('ba-form')
+  var steps = form.querySelectorAll('.form-step')
+  var stepperDots = document.querySelectorAll('.stepper-dot')
+  var stepperLines = document.querySelectorAll('.stepper-line')
+  var stepper = document.getElementById('stepper')
+
+  var state = {
+    step: 1,
+    first_name: '',
+    last_name: '',
+    email: '',
+    linkedin_url: '',
+    exit_context: '',
+    sectors: [],
+    stages: [],
+    ticket_min: null,
+    ticket_max: null,
+    geography: [],
+    esg_preferences: [],
+    weekly_capacity: null,
+    referral_source: '',
+    consent_rgpd: false
+  }
+
+  function setError(id, show) {
+    var el = document.getElementById('err_' + id)
+    if (el) el.classList.toggle('visible', !!show)
+    var input = document.getElementById(id)
+    if (input) input.setAttribute('aria-invalid', show ? 'true' : 'false')
+  }
+
+  function showStep(n) {
+    state.step = n
+    steps.forEach(function (s) {
+      s.classList.toggle('active', Number(s.getAttribute('data-step')) === n)
+    })
+    stepperDots.forEach(function (d) {
+      var k = Number(d.getAttribute('data-step'))
+      d.classList.remove('active', 'done')
+      if (k < n) d.classList.add('done')
+      else if (k === n) d.classList.add('active')
+    })
+    stepperLines.forEach(function (l) {
+      var k = Number(l.getAttribute('data-line'))
+      l.classList.toggle('done', k < n)
+    })
+    stepper.setAttribute('aria-valuenow', String(n))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  /* ── Step 1 ── */
+  var step1Fields = ['first_name', 'last_name', 'email', 'linkedin_url']
+  var step1Inputs = step1Fields.map(function (id) { return document.getElementById(id) })
+  var exitInput = document.getElementById('exit_context')
+  var next1 = document.getElementById('next-1')
+
+  function validateStep1(interactive) {
+    var fn = document.getElementById('first_name').value.trim()
+    var ln = document.getElementById('last_name').value.trim()
+    var em = document.getElementById('email').value.trim()
+    var li = document.getElementById('linkedin_url').value.trim()
+
+    var okFn = fn.length >= 2 && fn.length <= 80
+    var okLn = ln.length >= 2 && ln.length <= 80
+    var okEm = em.length > 0 && em.length <= 254 && EMAIL_RE.test(em)
+    var okLi = LINKEDIN_RE.test(li)
+
+    if (interactive) {
+      setError('first_name', !okFn && fn.length > 0)
+      setError('last_name', !okLn && ln.length > 0)
+      setError('email', !okEm && em.length > 0)
+      setError('linkedin_url', !okLi && li.length > 0)
+    }
+
+    next1.disabled = !(okFn && okLn && okEm && okLi)
+    return okFn && okLn && okEm && okLi
+  }
+
+  step1Inputs.forEach(function (inp) {
+    inp.addEventListener('input', function () { validateStep1(true) })
+    inp.addEventListener('blur', function () { validateStep1(true) })
+  })
+
+  next1.addEventListener('click', function () {
+    if (!validateStep1(true)) return
+    state.first_name = document.getElementById('first_name').value.trim()
+    state.last_name = document.getElementById('last_name').value.trim()
+    state.email = document.getElementById('email').value.trim()
+    state.linkedin_url = document.getElementById('linkedin_url').value.trim()
+    state.exit_context = exitInput.value.trim()
+    track('ba_step_1_complete')
+    showStep(2)
+  })
+
+  /* ── Step 2 ── */
+  var next2 = document.getElementById('next-2')
+  var sectorInputs = form.querySelectorAll('input[name="sectors"]')
+  var stageInputs = form.querySelectorAll('input[name="stages"]')
+  var geoInputs = form.querySelectorAll('input[name="geography"]')
+  var esgInputs = form.querySelectorAll('input[name="esg_preferences"]')
+  var capInputs = form.querySelectorAll('input[name="weekly_capacity"]')
+  var tMinInput = document.getElementById('ticket_min')
+  var tMaxInput = document.getElementById('ticket_max')
+
+  function getChecked(inputs) {
+    var out = []
+    inputs.forEach(function (i) { if (i.checked) out.push(i.value) })
+    return out
+  }
+
+  function enforceCap(inputs, max) {
+    var checked = getChecked(inputs)
+    if (checked.length >= max) {
+      inputs.forEach(function (i) { if (!i.checked) i.disabled = true })
+    } else {
+      inputs.forEach(function (i) { i.disabled = false })
+    }
+  }
+
+  function validateStep2(interactive) {
+    var sectors = getChecked(sectorInputs)
+    var stages = getChecked(stageInputs)
+    var geo = getChecked(geoInputs)
+    var cap = null
+    capInputs.forEach(function (i) { if (i.checked) cap = Number(i.value) })
+    var tMin = Number(tMinInput.value)
+    var tMax = Number(tMaxInput.value)
+
+    var okSec = sectors.length >= 1 && sectors.length <= 6
+    var okStages = stages.length >= 1 && stages.length <= 3
+    var okGeo = geo.length >= 1
+    var okCap = cap === 1 || cap === 2 || cap === 3
+    var okTicket = tMinInput.value !== '' && tMaxInput.value !== '' &&
+      tMin >= 5000 && tMin <= 500000 && tMax >= 5000 && tMax <= 500000 && tMin <= tMax
+
+    if (interactive) {
+      setError('sectors', !okSec)
+      setError('stages', !okStages)
+      setError('geography', !okGeo)
+      setError('weekly_capacity', !okCap)
+      setError('ticket', !okTicket && (tMinInput.value !== '' || tMaxInput.value !== ''))
+    }
+
+    next2.disabled = !(okSec && okStages && okGeo && okCap && okTicket)
+    return okSec && okStages && okGeo && okCap && okTicket
+  }
+
+  sectorInputs.forEach(function (i) {
+    i.addEventListener('change', function () {
+      enforceCap(sectorInputs, 6)
+      validateStep2(true)
+    })
+  })
+  stageInputs.forEach(function (i) {
+    i.addEventListener('change', function () {
+      enforceCap(stageInputs, 3)
+      validateStep2(true)
+    })
+  })
+  geoInputs.forEach(function (i) { i.addEventListener('change', function () { validateStep2(true) }) })
+  esgInputs.forEach(function (i) {
+    i.addEventListener('change', function () { enforceCap(esgInputs, 4) })
+  })
+  capInputs.forEach(function (i) { i.addEventListener('change', function () { validateStep2(true) }) })
+  ;[tMinInput, tMaxInput].forEach(function (i) {
+    i.addEventListener('input', function () { validateStep2(true) })
+    i.addEventListener('blur', function () { validateStep2(true) })
+  })
+
+  next2.addEventListener('click', function () {
+    if (!validateStep2(true)) return
+    state.sectors = getChecked(sectorInputs)
+    state.stages = getChecked(stageInputs)
+    state.geography = getChecked(geoInputs)
+    state.esg_preferences = getChecked(esgInputs)
+    var cap = null
+    capInputs.forEach(function (i) { if (i.checked) cap = Number(i.value) })
+    state.weekly_capacity = cap
+    state.ticket_min = Number(tMinInput.value)
+    state.ticket_max = Number(tMaxInput.value)
+    renderRecap()
+    track('ba_step_2_complete')
+    showStep(3)
+  })
+
+  /* ── Step 3 ── */
+  var consentInput = document.getElementById('consent_rgpd')
+  var submitBtn = document.getElementById('submit-btn')
+  var referralInput = document.getElementById('referral_source')
+  var apiError = document.getElementById('api-error')
+
+  consentInput.addEventListener('change', function () {
+    submitBtn.disabled = !consentInput.checked
+  })
+
+  function renderRecap() {
+    var dl = document.getElementById('recap-list')
+    var rows = [
+      ['Nom', state.first_name + ' ' + state.last_name],
+      ['Email', state.email],
+      ['LinkedIn', state.linkedin_url],
+      ['Secteurs', state.sectors.join(', ')],
+      ['Stades', state.stages.join(', ')],
+      ['Ticket', state.ticket_min.toLocaleString('fr-FR') + '€ - ' + state.ticket_max.toLocaleString('fr-FR') + '€'],
+      ['Géographies', state.geography.join(', ')],
+      ['ESG', state.esg_preferences.length ? state.esg_preferences.join(', ') : 'Aucune'],
+      ['Capacité', state.weekly_capacity + ' dossier' + (state.weekly_capacity > 1 ? 's' : '') + '/sem']
+    ]
+    dl.innerHTML = rows.map(function (r) {
+      return '<dt>' + r[0] + '</dt><dd>' + r[1] + '</dd>'
+    }).join('')
+  }
+
+  /* ── Prev navigation ── */
+  form.querySelectorAll('[data-goto]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showStep(Number(btn.getAttribute('data-goto')))
+    })
+  })
+
+  /* ── Submit ── */
+  function setLoading(on) {
+    submitBtn.classList.toggle('loading', on)
+    submitBtn.disabled = on || !consentInput.checked
+  }
+
+  function showApiError(msg) {
+    apiError.textContent = msg
+    apiError.classList.add('visible')
+  }
+
+  function hideApiError() {
+    apiError.classList.remove('visible')
+    apiError.textContent = ''
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault()
+    if (!consentInput.checked) return
+    hideApiError()
+    track('ba_apply_submit')
+
+    state.referral_source = referralInput.value.trim()
+    state.consent_rgpd = true
+
+    var body = {
+      first_name: state.first_name,
+      last_name: state.last_name,
+      email: state.email,
+      linkedin_url: state.linkedin_url,
+      exit_context: state.exit_context,
+      sectors: state.sectors,
+      stages: state.stages,
+      ticket_min: state.ticket_min,
+      ticket_max: state.ticket_max,
+      geography: state.geography,
+      esg_preferences: state.esg_preferences,
+      weekly_capacity: state.weekly_capacity,
+      referral_source: state.referral_source,
+      consent_rgpd: true
+    }
+
+    setLoading(true)
+
+    fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }).then(function (res) {
+      return res.json().then(function (data) { return { status: res.status, data: data } }).catch(function () {
+        return { status: res.status, data: {} }
+      })
+    }).then(function (r) {
+      if (r.status === 200 && r.data && r.data.checkout_url) {
+        track('ba_apply_success')
+        window.location.href = r.data.checkout_url
+        return
+      }
+      if (r.status === 409) {
+        track('ba_apply_error', { error: 'ALREADY_APPLIED' })
+        showApiError('Une candidature existe déjà pour cet email. Contact : hello@flaynn.com')
+      } else if (r.status === 422) {
+        track('ba_apply_error', { error: 'VALIDATION_FAILED' })
+        var msg = 'Certains champs sont invalides.'
+        if (r.data && r.data.errors && typeof r.data.errors === 'object') {
+          var lines = Object.keys(r.data.errors).map(function (k) { return k + ' : ' + r.data.errors[k] })
+          if (lines.length) msg += ' ' + lines.join(' · ')
+        }
+        showApiError(msg)
+      } else if (r.status === 502) {
+        track('ba_apply_error', { error: 'STRIPE_UNAVAILABLE' })
+        showApiError('Erreur de paiement temporaire. Réessayez dans quelques minutes.')
+      } else if (r.status === 503) {
+        track('ba_apply_error', { error: 'SERVICE_UNAVAILABLE' })
+        showApiError('Service temporairement indisponible.')
+      } else {
+        track('ba_apply_error', { error: 'UNKNOWN_' + r.status })
+        showApiError('Une erreur est survenue. Réessayez ou contactez hello@flaynn.com')
+      }
+      setLoading(false)
+    }).catch(function () {
+      track('ba_apply_error', { error: 'NETWORK' })
+      showApiError('Une erreur est survenue. Réessayez ou contactez hello@flaynn.com')
+      setLoading(false)
+    })
+  })
+
+  /* Init */
+  validateStep1(false)
+  validateStep2(false)
+})()
+</script>
+
+</body>
+</html>

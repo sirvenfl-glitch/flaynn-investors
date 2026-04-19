@@ -1,5 +1,5 @@
 /**
- * Starfield Canvas — flaynn.fr v3
+ * Starfield Canvas : flaynn.fr v3
  * 3 depth layers with wrapping parallax (stars always fill viewport)
  * Mouse drift + scroll parallax + warp stretching API
  */

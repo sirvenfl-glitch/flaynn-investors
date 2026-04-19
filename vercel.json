@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/fondateurs", "destination": "/fondateurs.html" },
+    { "source": "/investisseurs", "destination": "/investisseurs.html" },
+    { "source": "/rejoindre", "destination": "/rejoindre.html" },
+    { "source": "/rejoindre/merci", "destination": "/rejoindre-merci.html" }
+  ]
+}

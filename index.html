@@ -3,274 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flaynn — Deal flow pré-scoré pour investisseurs</title>
-  <meta name="description" content="Le deal flow est cassé. Les BA sont le dernier rempart de l'amorçage. Flaynn construit l'infrastructure du capital sélectif.">
+  <title>Flaynn · L'Ère du Capital Sélectif</title>
+  <meta name="description" content="Là où les fondateurs qui valent rencontrent les investisseurs qui comptent. Scoring IA + validation humaine. Francophone. Sélectif.">
   <link rel="canonical" href="https://flaynn.com">
-  <meta property="og:title" content="Flaynn — L'infrastructure du capital sélectif">
-  <meta property="og:description" content="Un pipeline pré-scoré. Aligné à votre thèse. Pas une pile. Une shortlist.">
+  <meta property="og:title" content="Flaynn · L'Ère du Capital Sélectif">
+  <meta property="og:description" content="Là où les fondateurs qui valent rencontrent les investisseurs qui comptent.">
   <meta property="og:image" content="https://flaynn.com/og-image.png">
   <meta property="og:url" content="https://flaynn.com">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-  <!-- IBM Plex Sans + Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Plausible -->
   <script defer data-domain="flaynn.com" src="https://plausible.io/js/script.js"></script>
   <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 </head>
 <body>
 
-<!-- Mobile logo -->
 <img src="logo.svg" alt="Flaynn" class="mobile-logo">
 
-<!-- Canvas layers -->
 <canvas id="starfield" aria-hidden="true"></canvas>
 <canvas id="warp-overlay" aria-hidden="true"></canvas>
 
 <main class="page">
 
-  <!-- ═══════════════════════════════════════════
-       STATION 1 — Le Constat
-       ═══════════════════════════════════════════ -->
-  <section class="station station-1" id="station-1">
-    <h1 class="hero-title">Le deal flow est cassé.</h1>
-    <div class="scroll-indicator" aria-hidden="true">&#8595;</div>
+  <!-- STATION 1 : Hero hub -->
+  <section class="snap-point station-home-1" id="station-1">
+    <div class="hero-hub">
+      <div class="logo-mark">Flaynn</div>
+      <h2>L'Ère du Capital Sélectif</h2>
+      <p class="hero-lead">Là où les fondateurs qui valent rencontrent les investisseurs qui comptent.</p>
+      <div class="cta-group">
+        <a href="/fondateurs" class="btn-primary" data-track="home_cta_fondateur_click">Je suis fondateur →</a>
+        <a href="/investisseurs" class="btn-secondary" data-track="home_cta_investisseur_click">Je suis investisseur →</a>
+      </div>
+      <p class="hero-micro">Scoring IA + validation humaine. Francophone. Sélectif.</p>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">↓</div>
   </section>
 
-  <!-- Warp zone 1 -->
-  <div class="warp-zone" id="warp-zone-1" aria-hidden="true"></div>
+  <!-- Warp zone 1 (violet) -->
+  <div class="warp-zone" data-warp-color="violet" aria-hidden="true"></div>
 
-  <!-- ═══════════════════════════════════════════
-       STATION 2 — Les Chiffres
-       ═══════════════════════════════════════════ -->
-  <section class="station station-2" id="station-2">
-
-    <div class="station-2-intro reveal">
-      <h2>Le capital-risque en France, aujourd'hui.</h2>
+  <!-- STATION 2 : Dual promise -->
+  <section class="snap-point" id="station-2">
+    <div class="dual-promise">
+      <h2 class="dual-promise-title reveal">Un seul projet. Deux promesses.</h2>
+      <div class="promise-cols">
+        <article class="promise-card violet reveal">
+          <span class="promise-label">Pour les fondateurs</span>
+          <h3>Soyez jugés pour ce que vous valez.</h3>
+          <p>Votre projet est scoré avec rigueur, validé par un analyste, transformé en preuve. Vous arrivez en rendez-vous avec un tiers de confiance qui a déjà tranché.</p>
+          <a href="/fondateurs" class="promise-link">Voir la page fondateurs →</a>
+        </article>
+        <article class="promise-card orange reveal">
+          <span class="promise-label">Pour les investisseurs</span>
+          <h3>Investissez avec conviction.</h3>
+          <p>Chaque dossier que vous recevez a passé deux filtres indépendants. Vous arrêtez de trier, vous commencez à signer.</p>
+          <a href="/investisseurs" class="promise-link">Voir la page investisseurs →</a>
+        </article>
+      </div>
     </div>
-
-    <!-- Stat 1: ÷4 -->
-    <div class="stat-block reveal">
-      <div class="stat-number">÷4</div>
-      <p class="stat-text">Le nombre de levées de fonds a été divisé par quatre en deux ans.</p>
-      <p class="stat-source">In Extenso, S1 2025</p>
-    </div>
-
-    <!-- Stat 2: 12% -->
-    <div class="stat-block reveal">
-      <div class="stat-number">12%</div>
-      <p class="stat-text">Taux de conversion seed vers Série A. Il était de 32% en 2020.</p>
-      <p class="stat-source">Crunchbase, cohorte 2022</p>
-    </div>
-
-    <!-- Stat 3: -60% -->
-    <div class="stat-block reveal">
-      <div class="stat-number">-60%</div>
-      <p class="stat-text">Chute du nombre de deals VC en France au premier semestre 2025.</p>
-      <p class="stat-source">In Extenso</p>
-    </div>
-
-    <!-- Stat 4: 100M€ -->
-    <div class="stat-block reveal">
-      <div class="stat-number">100M€</div>
-      <p class="stat-text stat-text-sequential">
-        <span class="stat-line">Investis par les business angels en 2024.</span>
-        <span class="stat-line">400 startups financées.</span>
-        <span class="stat-line stat-text-highlight">Aucun outil de scoring standardisé.</span>
-      </p>
-      <p class="stat-source">France Angels, Bilan 2024</p>
-    </div>
-
-    <!-- Punchline -->
-    <div class="punchline" id="punchline-block">
-      <p class="punchline-line">Les business angels sont le dernier rempart de l'amorçage.</p>
-      <p class="punchline-line orange">Sans infrastructure.</p>
-    </div>
-
   </section>
 
-  <!-- Warp zone 2 -->
-  <div class="warp-zone" id="warp-zone-2" aria-hidden="true"></div>
+  <!-- Warp zone 2 (orange) -->
+  <div class="warp-zone" data-warp-color="orange" aria-hidden="true"></div>
 
-  <!-- ═══════════════════════════════════════════
-       STATION 3 — La Vision + Le Produit
-       ═══════════════════════════════════════════ -->
-  <section class="station station-3" id="station-3">
-
-    <!-- Vision headline -->
-    <div class="vision-headline" id="vision-headline">
-      <span class="vision-line">Un pipeline pré-scoré.</span>
-      <span class="vision-line">Aligné à votre thèse.</span>
-      <span class="vision-line orange">Pas une pile. Une shortlist.</span>
+  <!-- STATION 3 : Manifesto -->
+  <section class="snap-point" id="station-3">
+    <div class="manifesto reveal">
+      <h2>Le réseau est un accident de naissance.</h2>
+      <p class="manifesto-accent">Le mérite, non.</p>
+      <p>Flaynn existe pour que l'accès au capital devienne une fonction du potentiel, pas des relations. Que vous soyez à Paris, Bruxelles, Dakar ou Montréal, vous êtes jugés sur la même grille.</p>
     </div>
-
-    <!-- Two columns -->
-    <div class="station-3-columns">
-
-      <!-- Column Left: Flaynn Card -->
-      <div class="column-left">
-        <div class="scoring-card reveal">
-          <div class="card-header">
-            <span class="card-label">Flaynn</span>
-            <div>
-              <span class="card-score">51/100</span>
-              <span class="card-verdict-badge">ALMOST</span>
-            </div>
-          </div>
-
-          <div class="score-row">
-            <span class="score-row-label">Market</span>
-            <div class="score-bar"><div class="score-bar-fill" data-width="72" style="transition-delay: 0ms"></div></div>
-            <span class="score-row-value">18/25</span>
-          </div>
-
-          <div class="score-row">
-            <span class="score-row-label">Product</span>
-            <div class="score-bar"><div class="score-bar-fill" data-width="80" style="transition-delay: 100ms"></div></div>
-            <span class="score-row-value">16/20</span>
-          </div>
-
-          <div class="score-row">
-            <span class="score-row-label">Traction</span>
-            <div class="score-bar"><div class="score-bar-fill" data-width="24" style="transition-delay: 200ms"></div></div>
-            <span class="score-row-value">6/25</span>
-          </div>
-
-          <div class="score-row">
-            <span class="score-row-label">Team</span>
-            <div class="score-bar"><div class="score-bar-fill" data-width="65" style="transition-delay: 300ms"></div></div>
-            <span class="score-row-value">13/20</span>
-          </div>
-
-          <div class="score-row">
-            <span class="score-row-label">Execution</span>
-            <div class="score-bar"><div class="score-bar-fill" data-width="80" style="transition-delay: 400ms"></div></div>
-            <span class="score-row-value">8/10</span>
-          </div>
-
-          <div class="card-verdict">
-            <span class="verdict-label">Verdict</span>
-            <span class="verdict-value">ALMOST</span>
-          </div>
-
-          <p class="card-badge">Flaynn Intelligence</p>
-        </div>
-
-        <p class="card-subtext">Ce scoring, c'est le nôtre. On l'a passé sur nous-mêmes.</p>
-      </div>
-
-      <!-- Column Right: iPhone Mockup -->
-      <div class="column-right">
-        <div class="iphone-wrapper">
-          <div class="iphone-frame" id="iphone-frame">
-            <div class="iphone-screen" id="iphone-screen">
-
-              <!-- Screen 1: Hero -->
-              <div class="phone-screen-section">
-                <div class="phone-logo">Flaynn</div>
-                <p class="phone-tagline">Stop Pitching. Start Proving.</p>
-                <span class="phone-btn">Démarrer</span>
-              </div>
-
-              <!-- Screen 2: Mini scoring card -->
-              <div class="phone-screen-section">
-                <div class="phone-card">
-                  <div class="phone-card-header">
-                    <span class="phone-card-label">Score</span>
-                    <span class="phone-card-score">73/100</span>
-                  </div>
-                  <div class="phone-bar-row">
-                    <span class="phone-bar-label">Market</span>
-                    <div class="phone-bar"><div class="phone-bar-fill" style="width:72%"></div></div>
-                  </div>
-                  <div class="phone-bar-row">
-                    <span class="phone-bar-label">Product</span>
-                    <div class="phone-bar"><div class="phone-bar-fill" style="width:70%"></div></div>
-                  </div>
-                  <div class="phone-bar-row">
-                    <span class="phone-bar-label">Traction</span>
-                    <div class="phone-bar"><div class="phone-bar-fill" style="width:48%"></div></div>
-                  </div>
-                  <div class="phone-bar-row">
-                    <span class="phone-bar-label">Team</span>
-                    <div class="phone-bar"><div class="phone-bar-fill" style="width:85%"></div></div>
-                  </div>
-                  <div class="phone-bar-row">
-                    <span class="phone-bar-label">Execution</span>
-                    <div class="phone-bar"><div class="phone-bar-fill" style="width:70%"></div></div>
-                  </div>
-                  <div class="phone-verdict">
-                    <span class="phone-verdict-label">Verdict</span>
-                    <span class="phone-verdict-value">ALMOST</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Screen 3: Dashboard -->
-              <div class="phone-screen-section">
-                <p class="phone-dashboard-title">Votre Flaynn Card</p>
-                <div class="phone-score-circle">73</div>
-                <p class="phone-status">Analyse en cours</p>
-              </div>
-
-              <!-- Screen 4: Résultat -->
-              <div class="phone-screen-section">
-                <p class="phone-result-title">Votre scoring en 24h.</p>
-                <p class="phone-result-price">29€.</p>
-                <ul class="phone-pillar-list">
-                  <li>Market</li>
-                  <li>Product</li>
-                  <li>Traction</li>
-                  <li>Team</li>
-                  <li>Execution</li>
-                </ul>
-              </div>
-
-              <!-- Screen 5: CTA final -->
-              <div class="phone-screen-section">
-                <a href="https://flaynn.tech" target="_blank" rel="noopener" class="phone-cta-link" onclick="if(window.plausible)plausible('cta_demo_click')">Voir en vrai →</a>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Mobile fallback link (hidden on desktop) -->
-    <a href="https://flaynn.tech" target="_blank" rel="noopener" class="mobile-platform-link" onclick="if(window.plausible)plausible('cta_demo_click')">Voir la plateforme →</a>
-
-    <!-- CTAs -->
-    <div class="cta-section">
-      <a href="mailto:contact@flaynn.fr?subject=Flaynn%20-%20Prise%20de%20contact%20investisseur" class="btn-cta" onclick="if(window.plausible)plausible('cta_contact_click')">Échanger avec l'équipe →</a>
-      <p class="invest-line">Vous investissez dans l'infrastructure du capital ? <a href="mailto:contact@flaynn.fr?subject=Flaynn%20-%20Investissement" class="invest-link" onclick="if(window.plausible)plausible('cta_invest_click')">Parlons-en.</a></p>
-    </div>
-
   </section>
 
 </main>
 
-<!-- ═══════════════════════════════════════════
-     Footer
-     ═══════════════════════════════════════════ -->
 <footer class="site-footer" id="footer">
   <div class="footer-divider"></div>
   <div class="footer-content">
     <img src="logo.svg" alt="Flaynn" class="footer-logo">
     <p class="footer-tagline">L'Ère du Capital Sélectif.</p>
+    <div class="footer-nav">
+      <a href="/fondateurs">Fondateurs</a>
+      <a href="/investisseurs">Investisseurs</a>
+      <a href="/rejoindre">Rejoindre</a>
+    </div>
     <button class="footer-legal" onclick="document.getElementById('legal-modal').classList.add('active')">Mentions légales</button>
   </div>
 </footer>
 
-<!-- Legal modal -->
 <div class="modal-overlay" id="legal-modal" onclick="if(event.target===this)this.classList.remove('active')">
   <div class="modal-content">
     <button class="modal-close" onclick="document.getElementById('legal-modal').classList.remove('active')" aria-label="Fermer">×</button>
@@ -288,10 +116,15 @@
   </div>
 </div>
 
-<!-- Scripts -->
 <script src="starfield.js"></script>
 <script src="warp.js"></script>
-<script src="phone-content.js"></script>
+<script>
+  document.querySelectorAll('[data-track]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      if (window.plausible) window.plausible(el.getAttribute('data-track'))
+    })
+  })
+</script>
 
 </body>
 </html>
